@@ -1,27 +1,23 @@
 import { React, useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { ADD_NEW_PLAYER_REQUEST } from "../redux/actions";
+import { CREATE_NEW_TEAM_REQUEST } from "../redux/actions";
 import {
   Grid,
-  Checkbox,
   Button,
-  OutlinedInput,
   InputLabel,
   MenuItem,
   FormControl,
   ListItemText,
   Typography,
   Select,
+  OutlinedInput,
+  Checkbox,
 } from "@mui/material";
-import InputComponent from "./common/InputComponent";
 import Snackbar from "./common/Snackbar";
 const CreateTeam = (props) => {
-  const { isLoading, playerPositions, addPlayerData, listPlayers } = props;
+  const { isLoading, playerPositions, listPlayers } = props;
   const [position, setPosition] = useState([]);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [height, setHight] = useState();
   const [errorBoxOpen, setErrorBoxOpen] = useState(false);
   const [errorBoxMsg, setErrorBoxMsg] = useState({
     msg: "",
@@ -35,66 +31,70 @@ const CreateTeam = (props) => {
     } = event;
     setPosition(typeof value === "string" ? value.split(",") : value);
   };
+  const [age, setAge] = useState("");
+
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
 
   const handleSumbmit = (e) => {
     e.preventDefault();
-    let playerData = {
-      firstName: firstName,
-      lastName: lastName,
-      height: height,
-      position: position,
-    };
-    let playerInclude = listPlayers.filter(
-      (item) => item.firstName === firstName && item.lastName === lastName
-    );
-    if (playerInclude.length) {
-      console.log("playerInclude", playerInclude);
-      setErrorBoxOpen(true);
-      setErrorBoxMsg({
-        msg: "Player already exists",
-        type: "error",
-      });
-    } else {
-      addPlayerData(playerData);
-      console.log("playerInclude", playerInclude);
-      setErrorBoxOpen(true);
-      setErrorBoxMsg({
-        msg: "Player Add Successfully",
-        type: "success",
-      });
-    }
+    // let playerData = {
+    //   firstName: firstName,
+    //   lastName: lastName,
+    //   height: height,
+    //   position: position,
+    // };
+    // let playerInclude = listPlayers.filter(
+    //   (item) => item.firstName === firstName && item.lastName === lastName
+    // );
+    // if (playerInclude.length) {
+    //   setErrorBoxOpen(true);
+    //   setErrorBoxMsg({
+    //     msg: "Player already exists",
+    //     type: "error",
+    //   });
+    // } else {
+    //   addPlayerData(playerData);
+    //   setErrorBoxOpen(true);
+    //   setErrorBoxMsg({
+    //     msg: "Player Add Successfully",
+    //     type: "success",
+    //   });
+    // }
   };
-  console.log("listPlayers", listPlayers);
   return (
     <>
       <form onSubmit={(e) => handleSumbmit(e)}>
         <Grid container spacing={4}>
           <Grid item xs={12}>
             <Typography component="h1" variant="h5">
-              Add Player
+              First Quarter Player Selection
             </Typography>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <InputComponent
-              value={firstName}
-              label="First Name"
-              autoFocus={true}
-              setValue={(value) => setFirstName(value)}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <InputComponent
-              value={lastName}
-              label="Last Name"
-              setValue={(value) => setLastName(value)}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <InputComponent
-              value={height}
-              label="Height"
-              setValue={(value) => !isNaN(value) && setHight(value)}
-            />
+            <FormControl sx={{ width: "100%" }}>
+              <InputLabel id="demo-select-small">Select Player Name</InputLabel>
+              <Select
+                labelId="demo-select-small"
+                id="demo-select-small"
+                value={age}
+                label="Select Player Name"
+                onChange={handleChange}
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {listPlayers &&
+                  listPlayers.map((item, index) => {
+                    return (
+                      <MenuItem value={item.firstName} key={index}>
+                        {item.firstName}
+                      </MenuItem>
+                    );
+                  })}
+              </Select>
+            </FormControl>
           </Grid>
           {playerPositions && (
             <Grid item xs={12} sm={6}>
@@ -137,7 +137,7 @@ const CreateTeam = (props) => {
               variant="contained"
               disabled={isLoading}
             >
-              Add Player
+              Create Team
             </Button>
           </Grid>{" "}
         </Grid>
@@ -149,7 +149,6 @@ const CreateTeam = (props) => {
 CreateTeam.propTypes = {
   isLoading: PropTypes.bool,
   playerPositions: PropTypes.array.isRequired,
-  AddPlayerData: PropTypes.func,
 };
 
 // Get state to props
@@ -160,8 +159,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addPlayerData: (data) =>
-    dispatch({ type: ADD_NEW_PLAYER_REQUEST, payload: data }),
+  //   addPlayerData: (data) =>
+  //     dispatch({ type: ADD_NEW_PLAYER_REQUEST, payload: data }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateTeam);

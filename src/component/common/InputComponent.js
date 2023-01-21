@@ -17,9 +17,9 @@ const InputComponent = (props) => {
 };
 
 InputComponent.propTypes = {
-  label: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-  setValue: PropTypes.func.isRequired,
+  label: PropTypes.string,
+  value: PropTypes.string,
+  setValue: PropTypes.func,
   className: PropTypes.string,
   autoFocus: PropTypes.bool,
 };

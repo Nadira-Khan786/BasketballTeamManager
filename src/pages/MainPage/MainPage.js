@@ -6,14 +6,15 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import AddPlayer from "../../component/AddPlayer"; //Compose Team
 import CreateTeam from "../../component/CreateTeam"; //First Quarter
+import "./MainPage.css";
 
-function MainPage() {
+const MainPage = () => {
   const [value, setValue] = React.useState("1");
-  const handleChange = (newValue) => {
+  const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   return (
-    <Box sx={{ width: "100%" }}>
+    <div className="main-ctn">
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
@@ -28,8 +29,8 @@ function MainPage() {
           <CreateTeam />
         </TabPanel>
       </TabContext>
-    </Box>
+    </div>
   );
-}
+};
 
 export default MainPage;

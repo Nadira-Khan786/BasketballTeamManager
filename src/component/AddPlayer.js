@@ -148,7 +148,7 @@ const AddPlayer = (props) => {
 
 AddPlayer.propTypes = {
   isLoading: PropTypes.bool,
-  playerPositions: PropTypes.array.isRequired,
+  playerPositions: PropTypes.array,
   AddPlayerData: PropTypes.func,
 };
 
