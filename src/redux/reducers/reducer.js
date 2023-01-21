@@ -1,10 +1,11 @@
 import {
-  ADD_NEW_PLAYER_REQUEST,
   ADD_NEW_PLAYER_REQUEST_SUCCESS,
   ADD_NEW_PLAYER_REQUEST_FAILED,
-} from "../action/actionType";
+  SET_LOADING,
+} from "../actions";
 
 const initialState = {
+  isLoading: false,
   listPlayers: [],
   PostionList: [
     "Point Guard (PG)",
@@ -16,20 +17,23 @@ const initialState = {
   teamList: [],
 };
 
-const Reducer = (state = initialState, action) => {
+const playerReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_NEW_PLAYER_REQUEST: {
+    case SET_LOADING: {
       return {
-
-      }
+        ...state,
+        isLoading: !state.isLoading,
+      };
     }
     case ADD_NEW_PLAYER_REQUEST_SUCCESS: {
       return {
-        
-      }
+        ...state,
+        listPlayers: [...state.listPlayers, action.payload],
+        isLoading: false,
+      };
     }
 
-    case GET_PRODUCT_ATTRIBUTES_FAILURE: {
+    case ADD_NEW_PLAYER_REQUEST_FAILED: {
       return {
         ...state,
         error: action.error,
@@ -40,4 +44,4 @@ const Reducer = (state = initialState, action) => {
   }
 };
 
-export default Reducer;
+export default playerReducer;
