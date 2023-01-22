@@ -48,7 +48,6 @@ const AddPlayer = (props) => {
       (item) => item.firstName === firstName && item.lastName === lastName
     );
     if (playerInclude.length) {
-      console.log("playerInclude", playerInclude);
       setErrorBoxOpen(true);
       setErrorBoxMsg({
         msg: "Player already exists",
@@ -56,7 +55,6 @@ const AddPlayer = (props) => {
       });
     } else {
       addPlayerData(playerData);
-      console.log("playerInclude", playerInclude);
       setErrorBoxOpen(true);
       setErrorBoxMsg({
         msg: "Player Add Successfully",
@@ -64,22 +62,17 @@ const AddPlayer = (props) => {
       });
     }
   };
-  console.log("listPlayers", listPlayers);
   return (
     <>
       <form onSubmit={(e) => handleSumbmit(e)}>
         <Grid container spacing={4}>
-          <Grid item xs={12}>
-            <Typography component="h1" variant="h5">
-              Add Player
-            </Typography>
-          </Grid>
           <Grid item xs={12} sm={6}>
             <InputComponent
               value={firstName}
               label="First Name"
               autoFocus={true}
               setValue={(value) => setFirstName(value)}
+              type="text"
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -87,6 +80,7 @@ const AddPlayer = (props) => {
               value={lastName}
               label="Last Name"
               setValue={(value) => setLastName(value)}
+              type="text"
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -94,6 +88,7 @@ const AddPlayer = (props) => {
               value={height}
               label="Height"
               setValue={(value) => !isNaN(value) && setHight(value)}
+              type="number"
             />
           </Grid>
           {playerPositions && (
@@ -149,7 +144,7 @@ const AddPlayer = (props) => {
 AddPlayer.propTypes = {
   isLoading: PropTypes.bool,
   playerPositions: PropTypes.array,
-  AddPlayerData: PropTypes.func,
+  addPlayerData: PropTypes.func,
 };
 
 // Get state to props

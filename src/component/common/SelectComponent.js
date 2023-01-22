@@ -1,33 +1,74 @@
-import * as React from 'react';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import * as React from "react";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 
-export default function SelectSmall() {
-  const [age, setAge] = React.useState('');
+const SelectComponent = (props) => {
+  const { label, value, setValue, className, menuList, type, playerName } =
+    props;
 
   const handleChange = (event) => {
-    setAge(event.target.value);
+    setValue(event.target.value);
   };
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
-      <InputLabel id="demo-select-small">Age</InputLabel>
-      <Select
-        labelId="demo-select-small"
-        id="demo-select-small"
-        value={age}
-        label="Age"
-        onChange={handleChange}
-      >
-        <MenuItem value="">
-          <em>None</em>
-        </MenuItem>
-        <MenuItem value={10}>Ten</MenuItem>
-        <MenuItem value={20}>Twenty</MenuItem>
-        <MenuItem value={30}>Thirty</MenuItem>
-      </Select>
+    <FormControl sx={{ width: "100%" }}>
+      <InputLabel id="demo-select-small">{label && label}</InputLabel>
+      {type === "player" ? (
+        <Select
+          labelId="demo-select-small"
+          id="demo-select-small"
+          value={value}
+          label="Select Player Name"
+          onChange={(e) => handleChange(e)}
+        >
+          {menuList?.length ? (
+            menuList.map((item, index) => {
+              return (
+                <MenuItem
+                  value={`${item.firstName}-${item.lastName}`}
+                  key={index}
+                >
+                  {`${item.firstName}  ${item.lastName}`}
+                </MenuItem>
+              );
+            })
+          ) : (
+            <MenuItem value="none">
+              <em>None</em>
+            </MenuItem>
+          )}
+        </Select>
+      ) : (
+        <Select
+          labelId="demo-select-small"
+          id="demo-select-small"
+          value={value}
+          label="Select Player Name"
+          onChange={(e) => handleChange(e)}
+        >
+          {playerName && menuList?.length ? (
+            menuList
+              .filter(
+                (item) => `${item.firstName}-${item.lastName}` === playerName
+              )?.[0]
+              ?.position.map((item, index) => {
+                return (
+                  <MenuItem value={item} key={index}>
+                    {item}
+                  </MenuItem>
+                );
+              })
+          ) : (
+            <MenuItem value="none">
+              <em>None</em>
+            </MenuItem>
+          )}
+        </Select>
+      )}
     </FormControl>
   );
-}
+};
+
+export default SelectComponent;

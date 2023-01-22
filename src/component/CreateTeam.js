@@ -1,50 +1,24 @@
-import { React, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { CREATE_NEW_TEAM_REQUEST } from "../redux/actions";
-import {
-  Grid,
-  Button,
-  InputLabel,
-  MenuItem,
-  FormControl,
-  ListItemText,
-  Typography,
-  Select,
-  OutlinedInput,
-  Checkbox,
-} from "@mui/material";
+import { Grid, Button, Typography } from "@mui/material";
 import Snackbar from "./common/Snackbar";
+import SelectComponent from "./common/SelectComponent";
+import { teamData } from "../constants/constants";
+
 const CreateTeam = (props) => {
-  const { isLoading, playerPositions, listPlayers } = props;
-  const [position, setPosition] = useState([]);
+  const { isLoading, listPlayers, addTeamData } = props;
   const [errorBoxOpen, setErrorBoxOpen] = useState(false);
   const [errorBoxMsg, setErrorBoxMsg] = useState({
     msg: "",
     type: "success",
   });
 
-  //   set position value
-  const handlePositionSet = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setPosition(typeof value === "string" ? value.split(",") : value);
-  };
-  const [age, setAge] = useState("");
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
+  const [createTeam, SetCreateTeam] = useState(teamData);
 
   const handleSumbmit = (e) => {
     e.preventDefault();
-    // let playerData = {
-    //   firstName: firstName,
-    //   lastName: lastName,
-    //   height: height,
-    //   position: position,
-    // };
     // let playerInclude = listPlayers.filter(
     //   (item) => item.firstName === firstName && item.lastName === lastName
     // );
@@ -54,81 +28,64 @@ const CreateTeam = (props) => {
     //     msg: "Player already exists",
     //     type: "error",
     //   });
-    // } else {
-    //   addPlayerData(playerData);
-    //   setErrorBoxOpen(true);
-    //   setErrorBoxMsg({
-    //     msg: "Player Add Successfully",
-    //     type: "success",
-    //   });
-    // }
+    // } else
+    addTeamData(createTeam);
+    setErrorBoxOpen(true);
+    setErrorBoxMsg({
+      msg: "First Quarter Add Successfully",
+      type: "success",
+    });
+  };
+
+  const handleChange = (value, type, ind) => {
+    let data = [...createTeam];
+    data[ind] = {
+      ...data[ind],
+      playerName: type === "player" ? value : data[ind].playerName,
+      position: type === "position" ? value : data[ind].position,
+    };
+    SetCreateTeam([...data]);
   };
   return (
     <>
+      <Snackbar
+        open={errorBoxOpen}
+        handleClose={() => {
+          setErrorBoxOpen(false);
+          setErrorBoxMsg("");
+        }}
+        message={errorBoxMsg}
+      />
       <form onSubmit={(e) => handleSumbmit(e)}>
         <Grid container spacing={4}>
-          <Grid item xs={12}>
-            <Typography component="h1" variant="h5">
-              First Quarter Player Selection
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl sx={{ width: "100%" }}>
-              <InputLabel id="demo-select-small">Select Player Name</InputLabel>
-              <Select
-                labelId="demo-select-small"
-                id="demo-select-small"
-                value={age}
-                label="Select Player Name"
-                onChange={handleChange}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                {listPlayers &&
-                  listPlayers.map((item, index) => {
-                    return (
-                      <MenuItem value={item.firstName} key={index}>
-                        {item.firstName}
-                      </MenuItem>
-                    );
-                  })}
-              </Select>
-            </FormControl>
-          </Grid>
-          {playerPositions && (
-            <Grid item xs={12} sm={6}>
-              <FormControl sx={{ width: "100%" }}>
-                <InputLabel id="demo-multiple-checkbox-label">
-                  Position
-                </InputLabel>
-                <Select
-                  labelId="demo-multiple-checkbox-label"
-                  id="demo-multiple-checkbox"
-                  multiple
-                  value={position}
-                  onChange={handlePositionSet}
-                  input={<OutlinedInput label="Position" />}
-                  renderValue={(selected) => selected.join(", ")}
-                >
-                  {playerPositions?.map((name) => (
-                    <MenuItem key={name} value={name}>
-                      <Checkbox checked={position.indexOf(name) > -1} />
-                      <ListItemText primary={name} />
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Grid>
-          )}
-          <Snackbar
-            open={errorBoxOpen}
-            handleClose={() => {
-              setErrorBoxOpen(false);
-              setErrorBoxMsg("");
-            }}
-            message={errorBoxMsg}
-          />
+          {createTeam.map((item, index) => {
+            return (
+              <React.Fragment key={index}>
+                <Grid item xs={12} sm={6}>
+                  <SelectComponent
+                    label="Select Player Name"
+                    menuList={listPlayers}
+                    setValue={(value) => handleChange(value, "player", index)}
+                    className=""
+                    value={item.playerName}
+                    type="player"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <SelectComponent
+                    label="Select Player Position"
+                    menuList={listPlayers}
+                    value={item.position}
+                    type="position"
+                    disabled={!item.playerName}
+                    playerName={item.playerName}
+                    setValue={(value) => handleChange(value, "position", index)}
+                    className=""
+                  />
+                </Grid>
+              </React.Fragment>
+            );
+          })}
           <Grid item xs={12} sm={12}>
             <Button
               type="submit"
@@ -149,6 +106,7 @@ const CreateTeam = (props) => {
 CreateTeam.propTypes = {
   isLoading: PropTypes.bool,
   playerPositions: PropTypes.array.isRequired,
+  addTeamData: PropTypes.func,
 };
 
 // Get state to props
@@ -159,8 +117,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  //   addPlayerData: (data) =>
-  //     dispatch({ type: ADD_NEW_PLAYER_REQUEST, payload: data }),
+  addTeamData: (data) =>
+    dispatch({ type: CREATE_NEW_TEAM_REQUEST, payload: data }),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateTeam);

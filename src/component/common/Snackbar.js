@@ -37,7 +37,7 @@ const SimpleSnackbar = (props) => {
   );
 };
 SimpleSnackbar.propTypes = {
-  message: PropTypes.object.isRequired,
+  message: PropTypes.string.isRequired,
   handleClose: PropTypes.func.isRequired,
   open: PropTypes.bool,
 };

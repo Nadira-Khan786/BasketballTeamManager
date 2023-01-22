@@ -1,0 +1,65 @@
+.main-ctn {
+  .tablist {
+    background-color: var(--table-head);
+    .tab {
+      color: var(--text-primary);
+    }
+  }
+  .css-13xfq8m-MuiTabPanel-root {
+    padding: 10px;
+  }
+  .tab-panel {
+    display: flex;
+    flex-direction: row;
+    
+    .card-ctn {
+      background-color: var(--card-bg);
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      margin-left: 15px;
+      &.mt {
+        margin-top: 10px !important;
+      }
+      .title {
+        background-color: var(--table-head);
+        border-radius: 8px 8px 0px 0px;
+        border-bottom: 1px solid var(--border-color);
+        padding: 6px;
+        color: var(--text-primary);
+        font-size: 18px;
+      }
+      .card-body {
+        padding: 12px;
+        margin-top: 10px;
+      }
+    }
+  }
+}
+@media screen and (max-width: 720px) {
+  .main-ctn {
+    .tablist {
+      background-color: var(--table-head);
+      .tab {
+        color: var(--text-primary);
+      }
+    }
+    .tab-panel {
+      // margin: 0.2em;
+      display: flex;
+      flex-direction: column;
+      .card-ctn {
+        margin-left: 0px;
+        margin-top: 10px;
+        .title {
+          padding: 4px;
+          color: var(--text-primary);
+          font-size: 14px;
+        }
+        .card-body {
+          padding: 8px;
+          margin-top: 5px;
+        }
+      }
+    }
+  }
+}

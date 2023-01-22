@@ -6,7 +6,9 @@ import {
 
 const initialState = {
   isLoading: false,
-  listPlayers: [],
+  listPlayers: localStorage.getItem("listPlayers")
+    ? JSON.parse(localStorage.getItem("listPlayers"))
+    : [],
   PostionList: [
     "Point Guard (PG)",
     "Shooting Guard (SG)",
@@ -26,6 +28,8 @@ const playerReducer = (state = initialState, action) => {
       };
     }
     case ADD_NEW_PLAYER_REQUEST_SUCCESS: {
+      let data = [...state.listPlayers, action.payload];
+      localStorage.setItem("listPlayers", JSON.stringify(data));
       return {
         ...state,
         listPlayers: [...state.listPlayers, action.payload],

@@ -1,8 +1,0 @@
-.main-ctn {
-  width: 50%;
-}
-@media screen and (max-width: 720px) {
-  .main-ctn {
-    width: 100%;
-  }
-}

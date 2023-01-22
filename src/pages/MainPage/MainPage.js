@@ -1,12 +1,13 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Tab from "@mui/material/Tab";
+import { Box, Typography, Tab } from "@mui/material";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import AddPlayer from "../../component/AddPlayer"; //Compose Team
 import CreateTeam from "../../component/CreateTeam"; //First Quarter
-import "./MainPage.css";
+import PlayerList from "../../component/PlayerList";
+import TeamList from "../../component/FirstQuarterPlayer";
+import "./MainPage.scss";
 
 const MainPage = () => {
   const [value, setValue] = React.useState("1");
@@ -15,20 +16,54 @@ const MainPage = () => {
   };
   return (
     <div className="main-ctn">
-      <TabContext value={value}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab label="Compose Team" value="1" />
-            <Tab label="First Quarter" value="2" />
+      <Box>
+        <TabContext value={value}>
+          <TabList
+            onChange={handleChange}
+            aria-label="lab API tabs example"
+            className="tablist"
+          >
+            <Tab label="Compose Team" value="0" className="tab" />
+            <Tab label="First Quarter" value="1" className="tab" />
           </TabList>
-        </Box>
-        <TabPanel value="1">
-          <AddPlayer />
-        </TabPanel>
-        <TabPanel value="2">
-          <CreateTeam />
-        </TabPanel>
-      </TabContext>
+          <TabPanel value="0" className="tab-panel">
+            <div className="card-ctn mt-5">
+              <Typography component="h1" className="title">
+                Add Player
+              </Typography>
+              <div className="card-body">
+                <AddPlayer />
+              </div>
+            </div>
+            <div className="card-ctn">
+              <Typography component="h1" className="title">
+                Player List
+              </Typography>
+              <div className="card-body">
+                <PlayerList />
+              </div>
+            </div>
+          </TabPanel>
+          <TabPanel value="1" className="tab-panel">
+            <div className="card-ctn">
+              <Typography component="h1" className="title">
+                First Quarter Player Selection
+              </Typography>
+              <div className="card-body">
+                <CreateTeam />
+              </div>
+            </div>
+            <div className="card-ctn">
+              <Typography component="h1" className="title">
+                First Quarter Players{" "}
+              </Typography>
+              <div className="card-body">
+                <TeamList />
+              </div>
+            </div>
+          </TabPanel>
+        </TabContext>
+      </Box>
     </div>
   );
 };
