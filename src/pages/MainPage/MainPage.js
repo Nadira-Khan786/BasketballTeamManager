@@ -5,13 +5,12 @@ import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import AddPlayer from "../../component/AddPlayer"; //Compose Team
 import CreateTeam from "../../component/CreateTeam"; //First Quarter
-import PlayerList from "../../component/PlayerList";
-import TeamList from "../../component/FirstQuarterPlayer";
+import PlayerList from "../../component/PlayerList"; //player list
+import TeamList from "../../component/FirstQuarterPlayer"; //player list for First Quarter
 import "./MainPage.scss";
 
 const MainPage = () => {
   const [value, setValue] = React.useState("1");
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -51,8 +50,7 @@ const MainPage = () => {
                 First Quarter Player Selection
               </Typography>
               <div className="card-body">
-                <CreateTeam
-                />
+                <CreateTeam />
               </div>
             </div>
             <div className="card-ctn">

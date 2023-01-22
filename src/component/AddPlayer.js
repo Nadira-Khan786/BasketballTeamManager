@@ -112,6 +112,11 @@ const AddPlayer = (props) => {
         msg: "Player Add Successfully",
         type: "success",
       });
+
+      setPosition("");
+      setFirstName("");
+      setLastName("");
+      setHight("");
     }
   };
   return (

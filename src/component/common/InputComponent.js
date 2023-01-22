@@ -6,7 +6,6 @@ const InputComponent = (props) => {
     <TextField
       value={value}
       variant="outlined"
-      //required
       fullWidth
       label={label}
       autoFocus={autoFocus}

@@ -5,6 +5,6 @@ import playerSaga from "./saga";
 
 // Export the root saga
 export default function* rootSaga() {
-  console.log("Hello From Redux-Saga!");
+  console.log("Connected Redux-Saga!");
   yield spawn(playerSaga);
 }

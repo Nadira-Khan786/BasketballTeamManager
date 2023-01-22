@@ -16,7 +16,6 @@ const initialState = {
     "Power Forward (PF)",
     "center (C)",
   ],
-  teamList: [],
 };
 
 const playerReducer = (state = initialState, action) => {

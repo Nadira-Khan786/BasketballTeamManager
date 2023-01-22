@@ -12,7 +12,6 @@ const SelectComponent = (props) => {
     label,
     value,
     setValue,
-    className,
     menuList,
     type,
     playerName,
