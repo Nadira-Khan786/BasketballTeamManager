@@ -1,19 +1,25 @@
 .table-container {
-  border-radius: 6px;
   border: 1px solid var(--border-color);
+  font-family: var(--font-family);
   .table-ctn {
     .table-head {
       .table-head-row {
-        background-color: var(--table-head);
+        background-color: var(--bg-secondary);
         .table-head-cell {
           padding: 8px;
-          color: var(--text-primary);
-          text-transform: uppercase;
+          color: var(--primary);
+          text-transform: capitalize;
+          font-weight: bold;
+          font-family: var(--font-family);
         }
       }
     }
     .table-body {
       background: var(--table-body);
+      font-family: var(--font-family);
+      tr:nth-child(even) {
+        background-color: var(--bg);
+      }
       .table-body-row {
         border-bottom: 1px solid var(--border-color);
         &.table-body-row:last-child {
@@ -24,6 +30,7 @@
           color: var(--text-table);
           border: 0px;
           cursor: pointer;
+          font-size: 11px;
         }
       }
     }

@@ -6,13 +6,14 @@ import { Grid, Button } from "@mui/material";
 import Snackbar from "./common/Snackbar";
 import SelectComponent from "./common/SelectComponent";
 import { teamData } from "../constants/constants";
+import "./AddPlayer.scss";
 
 const CreateTeam = (props) => {
   const { isLoading, listPlayers, addTeamData } = props;
   const [errorBoxOpen, setErrorBoxOpen] = useState(false);
   const [errorBoxMsg, setErrorBoxMsg] = useState({
     msg: "",
-    type: "success",
+    type: "",
   });
 
   const [createTeam, SetCreateTeam] = useState(teamData);
@@ -23,11 +24,14 @@ const CreateTeam = (props) => {
       (item) => item.playerName === "" || item.position === ""
     );
     if (ind > -1) {
-      setErrorBoxOpen(true);
-      setErrorBoxMsg({
-        msg: "All field are requird.",
-        type: "error",
+      let data = [...createTeam];
+      createTeam.forEach((element, index) => {
+        if (!element?.playerName)
+          data[index] = { ...data[index], nError: "Please select player" };
+        if (!element?.position)
+          data[index] = { ...data[index], pError: "Please select position" };
       });
+      SetCreateTeam([...data]);
       return false;
     }
     ind = createTeam.findIndex((item, index) => {
@@ -37,11 +41,29 @@ const CreateTeam = (props) => {
       return findData > -1 ? true : false;
     });
     if (ind > -1) {
-      setErrorBoxOpen(true);
-      setErrorBoxMsg({
-        msg: "Player can be selected only once.",
-        type: "error",
+      let data = [...createTeam];
+      createTeam.forEach((element, index) => {
+        let id = createTeam.findIndex(
+          (itm, i) => itm?.playerName === element.playerName && index !== i
+        );
+        if (id > -1)
+          data[index] = {
+            ...data[index],
+            nError: "Player can be selected only once.",
+          };
+        let id1 = createTeam.findIndex(
+          (itm, i) =>
+            itm?.playerName === element.playerName &&
+            itm?.position === element.position &&
+            index !== i
+        );
+        if (id1 > -1)
+          data[index] = {
+            ...data[index],
+            pError: "Player and his position can be selected only once.",
+          };
       });
+      SetCreateTeam([...data]);
       return false;
     }
 
@@ -52,11 +74,18 @@ const CreateTeam = (props) => {
       return findData > -1 ? true : false;
     });
     if (ind > -1) {
-      setErrorBoxOpen(true);
-      setErrorBoxMsg({
-        msg: "Player position must be unique.",
-        type: "error",
+      let data = [...createTeam];
+      createTeam.forEach((element, index) => {
+        let id = createTeam.findIndex(
+          (itm, i) => itm?.position === element.position && index !== i
+        );
+        if (id > -1)
+          data[index] = {
+            ...data[index],
+            pError: "Player position must be unique.",
+          };
       });
+      SetCreateTeam([...data]);
       return false;
     }
     addTeamData(createTeam);
@@ -73,7 +102,10 @@ const CreateTeam = (props) => {
       ...data[ind],
       playerName: type === "player" ? value : data[ind].playerName,
       position: type === "position" ? value : data[ind].position,
+      nError: type === "player" ? null : data[ind].nError,
+      pError: type === "position" ? null : data[ind].pError,
     };
+
     SetCreateTeam([...data]);
   };
   return (
@@ -99,6 +131,8 @@ const CreateTeam = (props) => {
                     className=""
                     value={item.playerName}
                     type="player"
+                    index={index}
+                    error={item?.nError}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -111,20 +145,22 @@ const CreateTeam = (props) => {
                     playerName={item.playerName}
                     setValue={(value) => handleChange(value, "position", index)}
                     className=""
+                    index={index}
+                    error={item?.pError}
                   />
                 </Grid>
               </React.Fragment>
             );
           })}
-          <Grid item xs={12} sm={12}>
+          <Grid item xs={12} sm={12} className="btn-ctn">
             <Button
               type="submit"
               fullWidth
-              color="primary"
               variant="contained"
+              className="btn"
               disabled={isLoading}
             >
-              Create Team
+              Save
             </Button>
           </Grid>{" "}
         </Grid>

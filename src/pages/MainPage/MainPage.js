@@ -40,7 +40,7 @@ const MainPage = () => {
               <Typography component="h1" className="title">
                 Player List
               </Typography>
-              <div className="card-body">
+              <div className="card-body1">
                 <PlayerList />
               </div>
             </div>
@@ -59,7 +59,7 @@ const MainPage = () => {
               <Typography component="h1" className="title">
                 First Quarter Players{" "}
               </Typography>
-              <div className="card-body">
+              <div className="card-body1">
                 <TeamList />
               </div>
             </div>

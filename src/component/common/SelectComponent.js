@@ -1,19 +1,30 @@
 import * as React from "react";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
+import {
+  Select,
+  FormHelperText,
+  FormControl,
+  MenuItem,
+  InputLabel,
+} from "@mui/material";
 
 const SelectComponent = (props) => {
-  const { label, value, setValue, className, menuList, type, playerName } =
-    props;
+  const {
+    label,
+    value,
+    setValue,
+    className,
+    menuList,
+    type,
+    playerName,
+    error,
+  } = props;
 
   const handleChange = (event) => {
     setValue(event.target.value);
   };
 
   return (
-    <FormControl sx={{ width: "100%" }} error>
+    <FormControl sx={{ width: "100%" }} error={error ? true : false}>
       <InputLabel id="demo-select-small">{label && label}</InputLabel>
       {type === "player" ? (
         <Select
@@ -67,6 +78,7 @@ const SelectComponent = (props) => {
           )}
         </Select>
       )}
+      {error && <FormHelperText>{error}</FormHelperText>}
     </FormControl>
   );
 };

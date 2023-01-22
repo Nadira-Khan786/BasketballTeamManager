@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import InputComponent from "./common/InputComponent";
 import Snackbar from "./common/Snackbar";
+import "./AddPlayer.scss";
 const AddPlayer = (props) => {
   const { isLoading, playerPositions, addPlayerData, listPlayers } = props;
   const [position, setPosition] = useState([]);
@@ -25,7 +26,7 @@ const AddPlayer = (props) => {
   const [errorBoxOpen, setErrorBoxOpen] = useState(false);
   const [errorBoxMsg, setErrorBoxMsg] = useState({
     msg: "",
-    type: "success",
+    type: "",
   });
   const [error, setError] = useState({});
 
@@ -128,7 +129,6 @@ const AddPlayer = (props) => {
                   return { ...prev, firstName: null };
                 });
               }}
-              type="text"
               error={error?.firstName}
             />
           </Grid>
@@ -142,7 +142,6 @@ const AddPlayer = (props) => {
                   return { ...prev, lastName: null };
                 });
               }}
-              type="text"
               error={error?.lastName}
             />
           </Grid>
@@ -156,7 +155,6 @@ const AddPlayer = (props) => {
                   return { ...prev, height: null };
                 });
               }}
-              type="number"
               error={error?.height}
             />
           </Grid>
@@ -196,13 +194,13 @@ const AddPlayer = (props) => {
             }}
             message={errorBoxMsg}
           />
-          <Grid item xs={12} sm={12}>
+          <Grid item xs={12} sm={12} className="btn-ctn">
             <Button
               type="submit"
               fullWidth
-              color="primary"
               variant="contained"
               disabled={isLoading}
+              className="btn"
             >
               Add Player
             </Button>

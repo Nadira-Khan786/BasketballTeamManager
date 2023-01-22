@@ -1,8 +1,18 @@
 .main-ctn {
   .tablist {
     background-color: var(--table-head);
-    .tab {
-      color: var(--text-primary);
+    height: 60px;
+    display: flex;
+    align-items: center;
+    .css-heg063-MuiTabs-flexContainer {
+      display: flex;
+      justify-content: center;
+      .tab {
+        color: var(--text-primary);
+      }
+      .css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected {
+        border-bottom: 1px solid var(--border-color) !important;
+      }
     }
   }
   .css-13xfq8m-MuiTabPanel-root {
@@ -11,7 +21,6 @@
   .tab-panel {
     display: flex;
     flex-direction: row;
-    
     .card-ctn {
       background-color: var(--card-bg);
       border-radius: 8px;
@@ -24,9 +33,13 @@
         background-color: var(--table-head);
         border-radius: 8px 8px 0px 0px;
         border-bottom: 1px solid var(--border-color);
-        padding: 6px;
+        padding: 12px;
         color: var(--text-primary);
-        font-size: 18px;
+        font-size: 16px;
+      }
+      .card-body1{
+        padding: 0px;
+        border: 1px solid var(--border-color);
       }
       .card-body {
         padding: 12px;

@@ -1,0 +1,13 @@
+.btn-ctn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .btn {
+    width: 50%;
+    background-color: var(--table-head);
+  }
+  .btn:hover {
+    width: 50%;
+    background-color: var(--table-head);
+  }
+}

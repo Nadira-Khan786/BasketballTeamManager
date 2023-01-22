@@ -25,6 +25,11 @@ const SimpleSnackbar = (props) => {
       autoHideDuration={3000}
       onClose={handleClose}
       action={action}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "center"
+     }}
+  
     >
       <Alert
         onClose={handleClose}
