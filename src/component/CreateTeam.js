@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { CREATE_NEW_TEAM_REQUEST } from "../redux/actions";
-import { Grid, Button, Typography } from "@mui/material";
+import { Grid, Button } from "@mui/material";
 import Snackbar from "./common/Snackbar";
 import SelectComponent from "./common/SelectComponent";
 import { teamData } from "../constants/constants";
@@ -19,16 +19,46 @@ const CreateTeam = (props) => {
 
   const handleSumbmit = (e) => {
     e.preventDefault();
-    // let playerInclude = listPlayers.filter(
-    //   (item) => item.firstName === firstName && item.lastName === lastName
-    // );
-    // if (playerInclude.length) {
-    //   setErrorBoxOpen(true);
-    //   setErrorBoxMsg({
-    //     msg: "Player already exists",
-    //     type: "error",
-    //   });
-    // } else
+    let ind = createTeam.findIndex(
+      (item) => item.playerName === "" || item.position === ""
+    );
+    if (ind > -1) {
+      setErrorBoxOpen(true);
+      setErrorBoxMsg({
+        msg: "All field are requird.",
+        type: "error",
+      });
+      return false;
+    }
+    ind = createTeam.findIndex((item, index) => {
+      let findData = createTeam.findIndex(
+        (itm, ind) => item.playerName === itm.playerName && index !== ind
+      );
+      return findData > -1 ? true : false;
+    });
+    if (ind > -1) {
+      setErrorBoxOpen(true);
+      setErrorBoxMsg({
+        msg: "Player can be selected only once.",
+        type: "error",
+      });
+      return false;
+    }
+
+    ind = createTeam.findIndex((item, index) => {
+      let findData = createTeam.findIndex(
+        (itm, ind) => item.position === itm.position && index !== ind
+      );
+      return findData > -1 ? true : false;
+    });
+    if (ind > -1) {
+      setErrorBoxOpen(true);
+      setErrorBoxMsg({
+        msg: "Player position must be unique.",
+        type: "error",
+      });
+      return false;
+    }
     addTeamData(createTeam);
     setErrorBoxOpen(true);
     setErrorBoxMsg({

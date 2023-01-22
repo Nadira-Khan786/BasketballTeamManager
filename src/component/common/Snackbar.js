@@ -22,7 +22,7 @@ const SimpleSnackbar = (props) => {
   return (
     <Snackbar
       open={open}
-      autoHideDuration={4000}
+      autoHideDuration={3000}
       onClose={handleClose}
       action={action}
     >
@@ -37,7 +37,6 @@ const SimpleSnackbar = (props) => {
   );
 };
 SimpleSnackbar.propTypes = {
-  message: PropTypes.string.isRequired,
   handleClose: PropTypes.func.isRequired,
   open: PropTypes.bool,
 };

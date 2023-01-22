@@ -11,8 +11,8 @@ import {
   MenuItem,
   FormControl,
   ListItemText,
-  Typography,
   Select,
+  FormHelperText,
 } from "@mui/material";
 import InputComponent from "./common/InputComponent";
 import Snackbar from "./common/Snackbar";
@@ -21,23 +21,66 @@ const AddPlayer = (props) => {
   const [position, setPosition] = useState([]);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [height, setHight] = useState();
+  const [height, setHight] = useState(0);
   const [errorBoxOpen, setErrorBoxOpen] = useState(false);
   const [errorBoxMsg, setErrorBoxMsg] = useState({
     msg: "",
     type: "success",
   });
+  const [error, setError] = useState({});
 
   //   set position value
   const handlePositionSet = (event) => {
     const {
       target: { value },
     } = event;
+    setError((prev) => {
+      return { ...prev, position: null };
+    });
     setPosition(typeof value === "string" ? value.split(",") : value);
   };
 
   const handleSumbmit = (e) => {
     e.preventDefault();
+    if (!firstName?.trim()) {
+      setError((prev) => {
+        return { ...prev, firstName: "Please enter firstname" };
+      });
+      return;
+    }
+    if (!lastName?.trim()) {
+      setError((prev) => {
+        return { ...prev, lastName: "Please enter lastname" };
+      });
+      return;
+    }
+    if (+height <= 0) {
+      setError((prev) => {
+        return {
+          ...prev,
+          height: "Height must be positive number.",
+        };
+      });
+      setErrorBoxOpen(true);
+      setErrorBoxMsg({
+        msg: "Height must be positive number.",
+        type: "error",
+      });
+      return;
+    } else if (!position?.length) {
+      setError((prev) => {
+        return {
+          ...prev,
+          position: "Please select player position.",
+        };
+      });
+      setErrorBoxOpen(true);
+      setErrorBoxMsg({
+        msg: "Please select player position.",
+        type: "error",
+      });
+      return;
+    }
     let playerData = {
       firstName: firstName,
       lastName: lastName,
@@ -48,6 +91,13 @@ const AddPlayer = (props) => {
       (item) => item.firstName === firstName && item.lastName === lastName
     );
     if (playerInclude.length) {
+      setError((prev) => {
+        return {
+          ...prev,
+          firstName: "Player already exists.",
+          lastName: "Player already exists.",
+        };
+      });
       setErrorBoxOpen(true);
       setErrorBoxMsg({
         msg: "Player already exists",
@@ -55,6 +105,7 @@ const AddPlayer = (props) => {
       });
     } else {
       addPlayerData(playerData);
+      setError({});
       setErrorBoxOpen(true);
       setErrorBoxMsg({
         msg: "Player Add Successfully",
@@ -71,29 +122,47 @@ const AddPlayer = (props) => {
               value={firstName}
               label="First Name"
               autoFocus={true}
-              setValue={(value) => setFirstName(value)}
+              setValue={(value) => {
+                setFirstName(value);
+                setError((prev) => {
+                  return { ...prev, firstName: null };
+                });
+              }}
               type="text"
+              error={error?.firstName}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <InputComponent
               value={lastName}
               label="Last Name"
-              setValue={(value) => setLastName(value)}
+              setValue={(value) => {
+                setLastName(value);
+                setError((prev) => {
+                  return { ...prev, lastName: null };
+                });
+              }}
               type="text"
+              error={error?.lastName}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <InputComponent
               value={height}
               label="Height"
-              setValue={(value) => !isNaN(value) && setHight(value)}
+              setValue={(value) => {
+                !isNaN(value) && setHight(value);
+                setError((prev) => {
+                  return { ...prev, height: null };
+                });
+              }}
               type="number"
+              error={error?.height}
             />
           </Grid>
           {playerPositions && (
             <Grid item xs={12} sm={6}>
-              <FormControl sx={{ width: "100%" }}>
+              <FormControl sx={{ width: "100%" }} error={error?.position}>
                 <InputLabel id="demo-multiple-checkbox-label">
                   Position
                 </InputLabel>
@@ -113,6 +182,9 @@ const AddPlayer = (props) => {
                     </MenuItem>
                   ))}
                 </Select>
+                {error?.position && (
+                  <FormHelperText>{error?.position}</FormHelperText>
+                )}
               </FormControl>
             </Grid>
           )}

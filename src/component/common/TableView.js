@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Table,
   TableBody,
@@ -46,9 +45,10 @@ const TableView = (props) => {
                   {tableheader.map((item) => {
                     return (
                       <TableCell key={item}>
-                        {item && item === "position"
+                        {/* {item && item === "position"
                           ? row[item].join(" , ")
-                          : row[item]}
+                          : row[item]} */}
+                        {item && row[item]}
                       </TableCell>
                     );
                   })}

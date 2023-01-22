@@ -13,7 +13,7 @@ const SelectComponent = (props) => {
   };
 
   return (
-    <FormControl sx={{ width: "100%" }}>
+    <FormControl sx={{ width: "100%" }} error>
       <InputLabel id="demo-select-small">{label && label}</InputLabel>
       {type === "player" ? (
         <Select

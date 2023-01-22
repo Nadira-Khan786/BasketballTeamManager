@@ -3,12 +3,11 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import TableView from "./common/TableView";
 const FirstQuarterPlayer = (props) => {
-  const { teamListData } = props;
-  const tableHead = ["playerName", "position"];
-  console.log("teamListData", teamListData);
+ const { teamListData } = props;
+ const tableHead = ["playerName", "position"];
   return (
     <>
-      <TableView tableheader={tableHead} tablebody={teamListData[0]} />
+      <TableView tableheader={tableHead} tablebody={teamListData} />
     </>
   );
 };

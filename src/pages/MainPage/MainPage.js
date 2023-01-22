@@ -11,6 +11,7 @@ import "./MainPage.scss";
 
 const MainPage = () => {
   const [value, setValue] = React.useState("1");
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -23,10 +24,10 @@ const MainPage = () => {
             aria-label="lab API tabs example"
             className="tablist"
           >
-            <Tab label="Compose Team" value="0" className="tab" />
-            <Tab label="First Quarter" value="1" className="tab" />
+            <Tab label="Compose Team" value="1" className="tab" />
+            <Tab label="First Quarter" value="2" className="tab" />
           </TabList>
-          <TabPanel value="0" className="tab-panel">
+          <TabPanel value="1" className="tab-panel">
             <div className="card-ctn mt-5">
               <Typography component="h1" className="title">
                 Add Player
@@ -44,13 +45,14 @@ const MainPage = () => {
               </div>
             </div>
           </TabPanel>
-          <TabPanel value="1" className="tab-panel">
+          <TabPanel value="2" className="tab-panel">
             <div className="card-ctn">
               <Typography component="h1" className="title">
                 First Quarter Player Selection
               </Typography>
               <div className="card-body">
-                <CreateTeam />
+                <CreateTeam
+                />
               </div>
             </div>
             <div className="card-ctn">

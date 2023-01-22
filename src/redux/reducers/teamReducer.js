@@ -4,7 +4,6 @@ import {
   SET_LOADING,
 } from "../actions";
 
-
 const initialState = {
   teamList: [],
 };
@@ -22,7 +21,7 @@ const teamReducer = (state = initialState, action) => {
       localStorage.setItem("teamList", JSON.stringify(data));
       return {
         ...state,
-        teamList: [...state.teamList, action.payload],
+        teamList: [...action.payload],
         isLoading: false,
       };
     }
