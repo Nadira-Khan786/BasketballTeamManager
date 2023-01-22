@@ -113,7 +113,7 @@ const AddPlayer = (props) => {
         type: "success",
       });
 
-      setPosition("");
+      setPosition([]);
       setFirstName("");
       setLastName("");
       setHight("");
